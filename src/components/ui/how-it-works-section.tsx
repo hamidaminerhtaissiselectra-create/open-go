@@ -1,10 +1,10 @@
 import { Search, Calendar, Camera, ThumbsUp, ArrowRight } from "lucide-react";
 
-// Import des images
+// Import des images - UNIQUES pour chaque section
 import searchWalker from '@/assets/homepage/search-walker.jpg';
 import bookingReservation from '@/assets/homepage/booking-reservation.jpg';
-import photoProof from '@/assets/homepage/photo-proof.jpg';
-import validationPayment from '@/assets/homepage/validation-payment.jpg';
+import promeneurPhotoPreuve from '@/assets/homepage/promeneur-photo-preuve.jpg';
+import paiementValideApp from '@/assets/homepage/paiement-valide-app.jpg';
 
 export const HowItWorksSection = () => {
   const steps = [
@@ -30,7 +30,7 @@ export const HowItWorksSection = () => {
       title: "Recevez les preuves",
       description: "Le promeneur vous envoie obligatoirement photo/vidéo avec message pendant la mission. Transparence totale.",
       highlight: "Preuves obligatoires",
-      image: photoProof
+      image: promeneurPhotoPreuve
     },
     {
       number: "4",
@@ -38,7 +38,7 @@ export const HowItWorksSection = () => {
       title: "Validez & Payez",
       description: "Le paiement est débloqué après réception de la preuve. Laissez un avis certifié pour aider la communauté.",
       highlight: "Satisfaction garantie",
-      image: validationPayment
+      image: paiementValideApp
     }
   ];
 
