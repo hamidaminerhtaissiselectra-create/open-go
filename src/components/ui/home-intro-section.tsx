@@ -3,11 +3,11 @@ import { Shield, Camera, Lock, Award, ArrowRight, CheckCircle2 } from "lucide-re
 import { Button } from "./button";
 import { useNavigate } from "react-router-dom";
 
-// Import images - UNIQUES et distinctes
+// Import images
 import verificationBadge from "@/assets/trust/verification-badge.jpg";
 import photoProof from "@/assets/homepage/photo-proof.jpg";
 import validationPayment from "@/assets/homepage/validation-payment.jpg";
-import familleHeureuse from "@/assets/testimonials/famille-heureuse-chien.jpg";
+import happyFamilyDog from "@/assets/homepage/happy-family-dog.jpg";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -55,7 +55,7 @@ export const HomeIntroSection = () => {
       title: "Assurance Premium Incluse",
       description: "Chaque promenade est couverte par une assurance jusqu'à 2 millions d'euros. En cas d'incident, notre équipe gère toutes les démarches.",
       highlight: "Protection 100% sans frais",
-      image: familleHeureuse,
+      image: happyFamilyDog,
       color: "from-purple-500/20 to-pink-500/20"
     }
   ];

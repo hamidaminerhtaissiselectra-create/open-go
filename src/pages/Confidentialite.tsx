@@ -1,18 +1,17 @@
 import { Header } from "@/components/ui/header";
 import { Footer } from "@/components/ui/footer";
-import { SEOHead } from "@/components/seo/SEOHead";
+import { Helmet } from "react-helmet-async";
 import { Card, CardContent } from "@/components/ui/card";
 import { Shield, Lock, Eye, Users, Database, Settings } from "lucide-react";
 
 const Confidentialite = () => {
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead
-        title="Politique de Confidentialité | DogWalking"
-        description="Politique RGPD de DogWalking : collecte, utilisation et protection des données personnelles. Vos droits et notre engagement."
-        canonical="https://dogwalking.fr/confidentialite"
-        noindex
-      />
+      <Helmet>
+        <title>Politique de Confidentialité - DogWalking</title>
+        <meta name="description" content="Politique de confidentialité de DogWalking. Découvrez comment nous collectons, utilisons et protégeons vos données personnelles conformément au RGPD." />
+        <link rel="canonical" href="https://dogwalking.fr/confidentialite" />
+      </Helmet>
       
       <Header />
       

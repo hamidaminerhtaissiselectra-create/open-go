@@ -117,39 +117,6 @@ All colors MUST be HSL.
   }
 }
 
-/* Icon color utilities */
-.icon-primary { @apply text-primary; }
-.icon-accent { @apply text-accent; }
-.icon-success { @apply text-emerald-500; }
-.icon-warning { @apply text-amber-500; }
-.icon-info { @apply text-sky-500; }
-
-/* Icon background utilities */
-.icon-bg-primary { @apply bg-primary/10; }
-.icon-bg-accent { @apply bg-accent/10; }
-.icon-bg-success { @apply bg-emerald-500/10; }
-.icon-bg-warning { @apply bg-amber-500/10; }
-.icon-bg-info { @apply bg-sky-500/10; }
-
-/* Gradient text utility */
-.text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
-}
-
-/* Animated underline */
-.animated-underline {
-  @apply relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left;
-}
-
-/* Glow effects */
-.glow-primary {
-  box-shadow: 0 0 30px hsl(var(--primary) / 0.3);
-}
-
-.glow-accent {
-  box-shadow: 0 0 30px hsl(var(--accent) / 0.3);
-}
-
 @layer base {
   * {
     @apply border-border;

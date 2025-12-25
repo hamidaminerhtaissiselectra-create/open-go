@@ -11,8 +11,8 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import teamImage from "@/assets/pages/equipe-dogwalking.jpg";
-import missionImage from "@/assets/trust/promeneur-verifie-badge.jpg";
+import teamImage from "@/assets/testimonials/famille-chien-parc.jpg";
+import missionImage from "@/assets/trust/verification-badge.jpg";
 
 const quiSommesNousFAQs = [
   {

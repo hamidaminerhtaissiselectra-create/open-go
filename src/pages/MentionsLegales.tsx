@@ -1,16 +1,15 @@
 import { Header } from "@/components/ui/header";
 import { Footer } from "@/components/ui/footer";
-import { SEOHead } from "@/components/seo/SEOHead";
+import { Helmet } from "react-helmet-async";
 
 const MentionsLegales = () => {
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead
-        title="Mentions Légales | DogWalking"
-        description="Mentions légales de DogWalking SAS, plateforme de mise en relation entre propriétaires de chiens et promeneurs professionnels en France."
-        canonical="https://dogwalking.fr/mentions-legales"
-        noindex
-      />
+      <Helmet>
+        <title>Mentions légales - DogWalking</title>
+        <meta name="description" content="Mentions légales de DogWalking, plateforme de mise en relation entre propriétaires de chiens et promeneurs professionnels en France." />
+        <link rel="canonical" href="https://dogwalking.fr/mentions-legales" />
+      </Helmet>
       
       <Header />
       
