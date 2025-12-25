@@ -5,32 +5,12 @@ import type { Database } from './types';
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
-// Check if localStorage is available
-const isLocalStorageAvailable = () => {
-  try {
-    const test = '__storage_test__';
-    window.localStorage.setItem(test, test);
-    window.localStorage.removeItem(test);
-    return true;
-  } catch {
-    return false;
-  }
-};
-
-// Memory storage fallback for environments where localStorage is blocked
-const memoryStorage: { [key: string]: string } = {};
-const fallbackStorage = {
-  getItem: (key: string) => memoryStorage[key] ?? null,
-  setItem: (key: string, value: string) => { memoryStorage[key] = value; },
-  removeItem: (key: string) => { delete memoryStorage[key]; },
-};
-
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
 
 export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
   auth: {
-    storage: isLocalStorageAvailable() ? localStorage : fallbackStorage,
+    storage: localStorage,
     persistSession: true,
     autoRefreshToken: true,
   }
