@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Header } from "@/components/ui/header";
 import { Footer } from "@/components/ui/footer";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -9,12 +9,14 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  MessageCircle, Send, Search, Image, Camera, 
-  CheckCircle, Clock, ArrowLeft, User, Phone, Video, MoreVertical
+  MessageCircle, Send, Search, 
+  CheckCircle, Clock, ArrowLeft, Phone, Video, MoreVertical
 } from 'lucide-react';
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
+import { SEOHead } from "@/components/seo/SEOHead";
+import { FloatingContact } from "@/components/ui/floating-contact";
 
 interface Conversation {
   id: string;
@@ -52,7 +54,6 @@ const Messages = () => {
   const [sendingMessage, setSendingMessage] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -90,17 +91,14 @@ const Messages = () => {
         (payload) => {
           const newMsg = payload.new as Message;
           
-          // If in the current conversation, add the message
           if (selectedConversation?.otherParticipant?.id === newMsg.sender_id) {
             setMessages(prev => [...prev, newMsg]);
-            // Mark as read
             supabase
               .from('messages')
               .update({ read: true })
               .eq('id', newMsg.id);
           }
           
-          // Update conversations list
           fetchConversations(currentUserId);
         }
       )
@@ -116,7 +114,6 @@ const Messages = () => {
           const newMsg = payload.new as Message;
           if (selectedConversation?.otherParticipant?.id === newMsg.receiver_id) {
             setMessages(prev => {
-              // Avoid duplicates
               if (prev.some(m => m.id === newMsg.id)) return prev;
               return [...prev, newMsg];
             });
@@ -130,7 +127,6 @@ const Messages = () => {
     };
   }, [currentUserId, selectedConversation]);
 
-  // Handle initial conversation from navigation state
   useEffect(() => {
     if (location.state?.selectedWalkerId && conversations.length > 0) {
       const conv = conversations.find(c => c.otherParticipant?.id === location.state.selectedWalkerId);
@@ -225,7 +221,6 @@ const Messages = () => {
       if (error) throw error;
       setMessages(messagesData || []);
 
-      // Mark messages as read
       await supabase
         .from('messages')
         .update({ read: true })
@@ -310,7 +305,15 @@ const Messages = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="Messagerie | DogWalking"
+        description="Communiquez avec vos promeneurs en temps réel. Messagerie sécurisée DogWalking pour organiser les promenades de votre chien."
+        canonical="https://dogwalking.fr/messages"
+        noindex
+      />
+      
       <Header />
+      
       <main className="container mx-auto px-4 py-24">
         <motion.h1 
           className="text-4xl font-bold mb-8"
@@ -328,7 +331,7 @@ const Messages = () => {
           transition={{ duration: 0.5, delay: 0.1 }}
         >
           {/* Conversations List */}
-          <Card className="md:col-span-1 overflow-hidden">
+          <Card className="md:col-span-1 overflow-hidden shadow-card">
             <CardHeader className="pb-3 border-b">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -423,7 +426,7 @@ const Messages = () => {
           </Card>
 
           {/* Messages Area */}
-          <Card className="md:col-span-2 flex flex-col overflow-hidden">
+          <Card className="md:col-span-2 flex flex-col overflow-hidden shadow-card">
             <AnimatePresence mode="wait">
               {selectedConversation ? (
                 <motion.div
@@ -476,149 +479,91 @@ const Messages = () => {
                   </CardHeader>
 
                   {/* Messages */}
-                  <ScrollArea className="flex-1 p-4">
-                    <div className="space-y-4">
-                      {messages.length === 0 ? (
-                        <motion.div 
-                          className="text-center py-12 text-muted-foreground"
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                        >
-                          <MessageCircle className="h-16 w-16 mx-auto mb-4 opacity-20" />
-                          <p>Aucun message encore</p>
-                          <p className="text-sm">Commencez la conversation !</p>
-                        </motion.div>
-                      ) : (
+                  <CardContent className="flex-1 p-4 overflow-hidden">
+                    <ScrollArea className="h-full pr-4">
+                      <div className="space-y-4">
                         <AnimatePresence>
-                          {messages.map((msg, index) => (
-                            <motion.div
-                              key={msg.id}
-                              initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                              animate={{ opacity: 1, y: 0, scale: 1 }}
-                              transition={{ duration: 0.2 }}
-                              className={`flex ${msg.sender_id === currentUserId ? 'justify-end' : 'justify-start'}`}
-                            >
-                              <div className={`max-w-[70%] ${
-                                msg.sender_id === currentUserId 
-                                  ? 'bg-primary text-primary-foreground rounded-2xl rounded-br-md' 
-                                  : 'bg-muted rounded-2xl rounded-bl-md'
-                              } px-4 py-2 shadow-sm`}>
-                                <p className="break-words">{msg.content}</p>
-                                <div className={`flex items-center justify-end gap-1 mt-1 ${
-                                  msg.sender_id === currentUserId 
-                                    ? 'text-primary-foreground/70' 
-                                    : 'text-muted-foreground'
-                                }`}>
-                                  <span className="text-xs">
-                                    {new Date(msg.created_at).toLocaleTimeString('fr-FR', {
-                                      hour: '2-digit',
-                                      minute: '2-digit'
-                                    })}
-                                  </span>
-                                  {msg.sender_id === currentUserId && (
-                                    msg.read ? (
-                                      <CheckCircle className="h-3 w-3" />
-                                    ) : (
-                                      <Clock className="h-3 w-3" />
-                                    )
-                                  )}
+                          {messages.map((msg, index) => {
+                            const isOwn = msg.sender_id === currentUserId;
+                            return (
+                              <motion.div
+                                key={msg.id}
+                                initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                transition={{ delay: index * 0.02 }}
+                                className={`flex ${isOwn ? 'justify-end' : 'justify-start'}`}
+                              >
+                                <div className={`max-w-[70%] ${isOwn ? 'order-2' : 'order-1'}`}>
+                                  <div className={`px-4 py-2 rounded-2xl ${
+                                    isOwn 
+                                      ? 'bg-primary text-primary-foreground rounded-br-md' 
+                                      : 'bg-muted rounded-bl-md'
+                                  }`}>
+                                    <p className="text-sm">{msg.content}</p>
+                                  </div>
+                                  <div className={`flex items-center gap-1 mt-1 ${isOwn ? 'justify-end' : 'justify-start'}`}>
+                                    <span className="text-xs text-muted-foreground">
+                                      {formatTime(msg.created_at)}
+                                    </span>
+                                    {isOwn && (
+                                      msg.read 
+                                        ? <CheckCircle className="h-3 w-3 text-primary" />
+                                        : <Clock className="h-3 w-3 text-muted-foreground" />
+                                    )}
+                                  </div>
                                 </div>
-                              </div>
-                            </motion.div>
-                          ))}
+                              </motion.div>
+                            );
+                          })}
                         </AnimatePresence>
-                      )}
-                      <div ref={messagesEndRef} />
-                    </div>
-                  </ScrollArea>
-
-                  {/* Typing indicator */}
-                  <AnimatePresence>
-                    {isTyping && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
-                        className="px-4 py-2"
-                      >
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <span className="flex gap-1">
-                            <motion.span
-                              className="w-2 h-2 bg-muted-foreground rounded-full"
-                              animate={{ y: [0, -5, 0] }}
-                              transition={{ duration: 0.5, repeat: Infinity, delay: 0 }}
-                            />
-                            <motion.span
-                              className="w-2 h-2 bg-muted-foreground rounded-full"
-                              animate={{ y: [0, -5, 0] }}
-                              transition={{ duration: 0.5, repeat: Infinity, delay: 0.1 }}
-                            />
-                            <motion.span
-                              className="w-2 h-2 bg-muted-foreground rounded-full"
-                              animate={{ y: [0, -5, 0] }}
-                              transition={{ duration: 0.5, repeat: Infinity, delay: 0.2 }}
-                            />
-                          </span>
-                          <span>{selectedConversation.otherParticipant?.first_name} est en train d'écrire...</span>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                        <div ref={messagesEndRef} />
+                      </div>
+                    </ScrollArea>
+                  </CardContent>
 
                   {/* Message Input */}
-                  <div className="p-4 border-t bg-muted/30">
-                    <div className="flex items-center gap-2">
-                      <Button variant="ghost" size="icon" className="shrink-0">
-                        <Image className="h-5 w-5" />
-                      </Button>
-                      <Button variant="ghost" size="icon" className="shrink-0">
-                        <Camera className="h-5 w-5" />
-                      </Button>
+                  <div className="p-4 border-t bg-background">
+                    <form 
+                      onSubmit={(e) => { e.preventDefault(); sendMessage(); }}
+                      className="flex gap-2"
+                    >
                       <Input
-                        placeholder="Écrivez votre message..."
+                        placeholder="Écrire un message..."
                         value={newMessage}
                         onChange={(e) => setNewMessage(e.target.value)}
-                        onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage()}
-                        className="flex-1 bg-background"
+                        className="flex-1"
+                        disabled={sendingMessage}
                       />
-                      <motion.div whileTap={{ scale: 0.95 }}>
-                        <Button 
-                          onClick={sendMessage} 
-                          disabled={!newMessage.trim() || sendingMessage}
-                          className="shrink-0"
-                        >
-                          <Send className="h-4 w-4" />
-                        </Button>
-                      </motion.div>
-                    </div>
+                      <Button type="submit" disabled={sendingMessage || !newMessage.trim()}>
+                        <Send className="h-4 w-4" />
+                      </Button>
+                    </form>
                   </div>
                 </motion.div>
               ) : (
-                <motion.div 
+                <motion.div
                   key="empty"
-                  className="flex-1 flex items-center justify-center"
+                  className="flex flex-col items-center justify-center h-full text-center p-8"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 >
-                  <div className="text-center">
-                    <motion.div
-                      animate={{ y: [0, -10, 0] }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                    >
-                      <MessageCircle className="h-16 w-16 mx-auto mb-4 text-muted-foreground opacity-50" />
-                    </motion.div>
-                    <p className="text-muted-foreground">
-                      Sélectionnez une conversation pour afficher les messages
-                    </p>
+                  <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-6">
+                    <MessageCircle className="h-10 w-10 text-primary" />
                   </div>
+                  <h3 className="text-xl font-semibold mb-2">Sélectionnez une conversation</h3>
+                  <p className="text-muted-foreground max-w-sm">
+                    Choisissez une conversation dans la liste pour commencer à discuter
+                  </p>
                 </motion.div>
               )}
             </AnimatePresence>
           </Card>
         </motion.div>
       </main>
+      
       <Footer />
+      <FloatingContact />
     </div>
   );
 };
