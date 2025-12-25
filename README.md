@@ -1,73 +1,145 @@
-# Welcome to your Lovable project
+# 🐕 DogWalking - Plateforme de Promenade de Chiens
 
-## Project info
+[![React](https://img.shields.io/badge/React-18.3-blue.svg)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC.svg)](https://tailwindcss.com/)
+[![Supabase](https://img.shields.io/badge/Supabase-Connected-green.svg)](https://supabase.com/)
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## 📋 Description
 
-## How can I edit this code?
+DogWalking est une plateforme de mise en relation entre propriétaires de chiens et promeneurs professionnels vérifiés en France. Le site propose un système de paiement sécurisé (escrow), une vérification complète des promeneurs, et une assurance jusqu'à 2M€.
 
-There are several ways of editing your application.
+## 🚀 Fonctionnalités
 
-**Use Lovable**
+### Pour les propriétaires
+- ✅ Recherche de promeneurs par localisation
+- ✅ Réservation en ligne sécurisée
+- ✅ Messagerie temps réel
+- ✅ Gestion des chiens et réservations
+- ✅ Système de parrainage
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+### Pour les promeneurs
+- ✅ Inscription et vérification
+- ✅ Dashboard de gestion des missions
+- ✅ Suivi des revenus
+- ✅ Profil public personnalisable
 
-Changes made via Lovable will be committed automatically to this repo.
+### Sécurité
+- ✅ Vérification CNI + casier judiciaire
+- ✅ Paiement escrow sécurisé
+- ✅ Preuves photo/vidéo obligatoires
+- ✅ Assurance RC 2M€
 
-**Use your preferred IDE**
+## 🛠️ Stack Technique
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+| Technologie | Usage |
+|-------------|-------|
+| React 18 | Framework frontend |
+| TypeScript | Typage statique |
+| Vite | Build tool |
+| Tailwind CSS | Styling |
+| Shadcn/ui | Composants UI |
+| Framer Motion | Animations |
+| Supabase | Backend (Auth, DB, Storage) |
+| React Router | Navigation |
+| React Query | Data fetching |
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 📦 Installation
 
-Follow these steps:
+```bash
+# Cloner le repository
+git clone https://github.com/votre-username/dogwalking.git
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Installer les dépendances
+npm install
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Lancer en développement
 npm run dev
+
+# Build production
+npm run build
 ```
 
-**Edit a file directly in GitHub**
+## 🔧 Configuration
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Variables d'environnement
 
-**Use GitHub Codespaces**
+Créer un fichier `.env` à la racine :
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```env
+VITE_SUPABASE_URL=votre_url_supabase
+VITE_SUPABASE_PUBLISHABLE_KEY=votre_clé_publique
+```
 
-## What technologies are used for this project?
+### Supabase
 
-This project is built with:
+Le projet est connecté à Supabase pour :
+- **Auth** : Authentification email
+- **Database** : PostgreSQL avec RLS
+- **Storage** : Photos chiens, avatars, documents
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 📁 Structure du Projet
 
-## How can I deploy this project?
+```
+src/
+├── assets/           # Images et assets statiques
+│   ├── pages/        # Images des pages principales
+│   ├── services/     # Images des services
+│   └── homepage/     # Images de la homepage
+├── components/       # Composants React
+│   ├── ui/           # Composants UI (Shadcn)
+│   └── seo/          # Composants SEO
+├── pages/            # Pages de l'application
+│   └── services/     # Pages services piliers
+├── hooks/            # Hooks personnalisés
+├── integrations/     # Intégrations (Supabase)
+├── data/             # Données statiques
+└── lib/              # Utilitaires
+```
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+## 🌐 Routes Principales
 
-## Can I connect a custom domain to my Lovable project?
+| Route | Description |
+|-------|-------------|
+| `/` | Page d'accueil |
+| `/tarifs` | Tarifs et services |
+| `/securite` | Sécurité et garanties |
+| `/blog` | Articles et conseils |
+| `/walkers` | Recherche promeneurs |
+| `/services/promenade` | Service promenade |
+| `/services/garde` | Service garde |
+| `/services/visite` | Service visite |
+| `/dashboard` | Espace propriétaire |
+| `/walker-dashboard` | Espace promeneur |
 
-Yes, you can!
+## 🔒 Sécurité
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- Row Level Security (RLS) sur toutes les tables
+- Authentification Supabase
+- Tokens HSL pour le design system
+- Validation TypeScript stricte
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## 📈 SEO
+
+- Meta tags dynamiques (SEOHead)
+- Schema.org JSON-LD (FAQ, Service, LocalBusiness)
+- Sitemap XML automatique
+- Images optimisées avec alt descriptifs
+- Contenu 1300-1600 mots sur pages piliers
+
+## 🎨 Design System
+
+Le projet utilise des tokens CSS HSL définis dans `index.css` :
+- Couleurs primaires et secondaires
+- Typographie cohérente
+- Animations Framer Motion
+- Mode sombre supporté
+- Responsive mobile-first
+
+## 📄 Licence
+
+MIT License - Voir [LICENSE](LICENSE) pour plus de détails.
+
+---
+
+*Développé avec ❤️ pour les amoureux des chiens*
