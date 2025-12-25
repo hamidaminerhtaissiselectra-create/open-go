@@ -9,6 +9,24 @@ import { Textarea } from "@/components/ui/textarea";
 import { useNavigate } from 'react-router-dom';
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { SEOHead } from "@/components/seo/SEOHead";
+import { FloatingContact } from "@/components/ui/floating-contact";
+import { motion } from "framer-motion";
+import { Dog, Heart, Info } from "lucide-react";
+import heroImage from "@/assets/pages/add-dog-hero.jpg";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
+};
 
 const AddDog = () => {
   const navigate = useNavigate();
@@ -66,70 +84,119 @@ const AddDog = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="Ajouter un chien | DogWalking"
+        description="Enregistrez votre chien sur DogWalking pour réserver des promenades et gardes. Renseignez son profil : race, âge, tempérament et besoins spécifiques."
+        canonical="https://dogwalking.fr/dogs/add"
+        noindex
+      />
+      
       <Header />
-      <main className="container mx-auto px-4 py-24 max-w-2xl">
-        <h1 className="text-4xl font-bold mb-8">Ajouter un chien</h1>
+      
+      {/* Hero Section */}
+      <section className="relative h-[40vh] min-h-[300px] flex items-center justify-center overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${heroImage})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background" />
+        
+        <motion.div 
+          className="relative z-10 text-center px-4"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+            className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/20 mb-6"
+          >
+            <Dog className="h-10 w-10 text-primary" />
+          </motion.div>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Ajouter un chien</h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Créez le profil de votre compagnon pour réserver des promenades
+          </p>
+        </motion.div>
+      </section>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Informations du chien</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <Label htmlFor="name">Nom du chien *</Label>
-                <Input id="name" name="name" required placeholder="Rex, Bella..." />
-              </div>
+      <main className="container mx-auto px-4 py-12 max-w-2xl">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <Card className="shadow-card">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Heart className="h-5 w-5 text-primary" />
+                Informations du chien
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <motion.div variants={itemVariants}>
+                  <Label htmlFor="name">Nom du chien *</Label>
+                  <Input id="name" name="name" required placeholder="Rex, Bella..." />
+                </motion.div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="breed">Race *</Label>
-                  <Input id="breed" name="breed" required placeholder="Labrador, Berger..." />
-                </div>
-                <div>
-                  <Label htmlFor="age">Âge (années)</Label>
-                  <Input id="age" name="age" type="number" min="0" placeholder="3" />
-                </div>
-              </div>
+                <motion.div variants={itemVariants} className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="breed">Race *</Label>
+                    <Input id="breed" name="breed" required placeholder="Labrador, Berger..." />
+                  </div>
+                  <div>
+                    <Label htmlFor="age">Âge (années)</Label>
+                    <Input id="age" name="age" type="number" min="0" placeholder="3" />
+                  </div>
+                </motion.div>
 
-              <div>
-                <Label htmlFor="weight">Poids (kg)</Label>
-                <Input id="weight" name="weight" type="number" step="0.1" min="0" placeholder="25" />
-              </div>
+                <motion.div variants={itemVariants}>
+                  <Label htmlFor="weight">Poids (kg)</Label>
+                  <Input id="weight" name="weight" type="number" step="0.1" min="0" placeholder="25" />
+                </motion.div>
 
-              <div>
-                <Label htmlFor="temperament">Tempérament</Label>
-                <Textarea 
-                  id="temperament" 
-                  name="temperament"
-                  placeholder="Calme, joueur, sociable avec les autres chiens..."
-                  rows={3}
-                />
-              </div>
+                <motion.div variants={itemVariants}>
+                  <Label htmlFor="temperament">Tempérament</Label>
+                  <Textarea 
+                    id="temperament" 
+                    name="temperament"
+                    placeholder="Calme, joueur, sociable avec les autres chiens..."
+                    rows={3}
+                  />
+                </motion.div>
 
-              <div>
-                <Label htmlFor="medical">Notes médicales (optionnel)</Label>
-                <Textarea 
-                  id="medical" 
-                  name="medical"
-                  placeholder="Allergies, traitements, précautions particulières..."
-                  rows={3}
-                />
-              </div>
+                <motion.div variants={itemVariants}>
+                  <Label htmlFor="medical" className="flex items-center gap-2">
+                    <Info className="h-4 w-4 text-muted-foreground" />
+                    Notes médicales (optionnel)
+                  </Label>
+                  <Textarea 
+                    id="medical" 
+                    name="medical"
+                    placeholder="Allergies, traitements, précautions particulières..."
+                    rows={3}
+                  />
+                </motion.div>
 
-              <div className="flex gap-4">
-                <Button type="button" variant="outline" onClick={() => navigate('/dashboard')} className="flex-1">
-                  Annuler
-                </Button>
-                <Button type="submit" className="flex-1" disabled={loading}>
-                  {loading ? 'Ajout...' : 'Ajouter le chien'}
-                </Button>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
+                <motion.div variants={itemVariants} className="flex gap-4">
+                  <Button type="button" variant="outline" onClick={() => navigate('/dashboard')} className="flex-1">
+                    Annuler
+                  </Button>
+                  <Button type="submit" className="flex-1" disabled={loading}>
+                    {loading ? 'Ajout...' : 'Ajouter le chien'}
+                  </Button>
+                </motion.div>
+              </form>
+            </CardContent>
+          </Card>
+        </motion.div>
       </main>
+      
       <Footer />
+      <FloatingContact />
     </div>
   );
 };

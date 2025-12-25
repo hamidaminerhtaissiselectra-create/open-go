@@ -1,15 +1,16 @@
 import { Header } from "@/components/ui/header";
 import { Footer } from "@/components/ui/footer";
-import { Helmet } from "react-helmet-async";
+import { SEOHead } from "@/components/seo/SEOHead";
 
 const CGU = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Conditions Générales d'Utilisation - DogWalking</title>
-        <meta name="description" content="Conditions générales d'utilisation de la plateforme DogWalking. Règles et obligations pour les propriétaires de chiens et les promeneurs professionnels." />
-        <link rel="canonical" href="https://dogwalking.fr/cgu" />
-      </Helmet>
+      <SEOHead
+        title="Conditions Générales d'Utilisation | DogWalking"
+        description="CGU de DogWalking : règles et obligations pour les propriétaires de chiens et promeneurs professionnels sur notre plateforme."
+        canonical="https://dogwalking.fr/cgu"
+        noindex
+      />
       
       <Header />
       
