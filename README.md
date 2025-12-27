@@ -128,10 +128,13 @@ src/
 │   ├── FindWalkers.tsx        # Recherche avec filtres
 │   ├── BookWalk.tsx           # Réservation 3 étapes
 │   ├── Profile.tsx            # Gestion profil
-│   ├── services/              # Pages piliers SEO
-│   │   ├── ServicePromenade.tsx
-│   │   ├── ServiceGarde.tsx
-│   │   └── ServiceVisite.tsx
+│   ├── services/              # 6 Pages piliers SEO
+│   │   ├── ServicePromenade.tsx    # ~1550 mots
+│   │   ├── ServiceGarde.tsx        # ~1450 mots
+│   │   ├── ServiceVisite.tsx       # ~1500 mots
+│   │   ├── ServiceDogSitting.tsx   # ~1600 mots
+│   │   ├── ServicePetSitting.tsx   # ~1550 mots
+│   │   └── ServiceMarcheReguliere.tsx # ~1580 mots
 │   └── ...
 │
 ├── hooks/                     # Hooks personnalisés
@@ -172,12 +175,15 @@ src/
 | `/walkers` | Recherche promeneurs | ✅ |
 | `/walker/:id` | Profil promeneur | ✅ Dynamique |
 
-### Pages Services (Piliers SEO)
-| Route | Mots | FAQ |
-|-------|------|-----|
-| `/services/promenade` | ~1500 | 6 questions |
-| `/services/garde` | ~1500 | 6 questions |
-| `/services/visite` | ~1500 | 6 questions |
+### 6 Pages Services Piliers SEO
+| Route | Service | Mots | FAQ |
+|-------|---------|------|-----|
+| `/services/promenade` | Promenade de chien | ~1550 | 6 questions |
+| `/services/garde` | Garde de chiens | ~1450 | 6 questions |
+| `/services/visite` | Visite à domicile | ~1500 | 6 questions |
+| `/services/dog-sitting` | Dog Sitting | ~1600 | 8 questions |
+| `/services/pet-sitting` | Pet Sitting Multi-Animaux | ~1550 | 8 questions |
+| `/services/marche-reguliere` | Marche Régulière | ~1580 | 8 questions |
 
 ### Espace Utilisateur
 | Route | Description |
