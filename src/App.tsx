@@ -36,6 +36,9 @@ import ProcheDeVous from "./pages/ProcheDeVous";
 import ServicePromenade from "./pages/services/ServicePromenade";
 import ServiceGarde from "./pages/services/ServiceGarde";
 import ServiceVisite from "./pages/services/ServiceVisite";
+import ServiceDogSitting from "./pages/services/ServiceDogSitting";
+import ServicePetSitting from "./pages/services/ServicePetSitting";
+import ServiceMarcheReguliere from "./pages/services/ServiceMarcheReguliere";
 
 const queryClient = new QueryClient();
 
@@ -61,10 +64,13 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/services/:slug" element={<ServicePage />} />
-            {/* Service Pillar Pages */}
+            {/* Service Pillar Pages - 6 SEO Pillars */}
             <Route path="/services/promenade" element={<ServicePromenade />} />
             <Route path="/services/garde" element={<ServiceGarde />} />
             <Route path="/services/visite" element={<ServiceVisite />} />
+            <Route path="/services/dog-sitting" element={<ServiceDogSitting />} />
+            <Route path="/services/pet-sitting" element={<ServicePetSitting />} />
+            <Route path="/services/marche-reguliere" element={<ServiceMarcheReguliere />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/dogs/add" element={<AddDog />} />
